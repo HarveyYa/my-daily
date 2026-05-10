@@ -1,0 +1,20 @@
+{
+  "main": "index.html",
+  "preload": "preload/services.js",
+  "logo": "logo.png",
+  "development": {
+    "main": "http://localhost:5173"
+  },
+  "features": [
+    {
+      "code": "daily-report",
+      "explain": "记录每日工作内容，快速回顾与复制日报，AI智能总结周报",
+      "cmds": [
+        "我的日报",
+        "日报",
+        "写日报",
+        "今日工作"
+      ]
+    }
+  ]
+}

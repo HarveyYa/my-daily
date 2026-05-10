@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "types": [
+      "utools-api-types"
+    ],
+    "jsx": "react"
+  },
+  "include": [
+    "src/**/*.jsx",
+    "src/**/*.js"
+  ]
+}

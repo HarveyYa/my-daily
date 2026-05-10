@@ -1,0 +1,1166 @@
+.daily-app {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    color: #1f2933;
+    background: #f6f7f9;
+    overflow: hidden;
+}
+
+.daily-sidebar {
+    width: 280px;
+    min-width: 240px;
+    border-right: 1px solid #dfe4ea;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.daily-brand {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid #edf0f3;
+}
+
+.daily-brand h1 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.daily-brand p {
+    margin: 6px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.daily-brand-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.daily-today,
+.daily-toolbar button,
+.daily-tabs button,
+.daily-record {
+    border: 1px solid #d6dde5;
+    background: #fff;
+    color: #26313f;
+    border-radius: 6px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+}
+
+.daily-today {
+    padding: 8px 10px;
+    white-space: nowrap;
+}
+
+.daily-sidebar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid #d6dde5;
+    background: #fff;
+    color: #26313f;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: background .15s, border-color .15s;
+}
+
+.daily-sidebar-toggle:hover {
+    background: #eef6ff;
+    border-color: #8cc4ff;
+}
+
+.daily-today:hover,
+.daily-toolbar button:hover,
+.daily-tabs button:hover,
+.daily-record:hover {
+    background: #eef6ff;
+    border-color: #8cc4ff;
+}
+
+.daily-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #edf0f3;
+}
+
+.daily-tabs button {
+    height: 32px;
+    padding: 0 4px;
+    font-size: 12px;
+}
+
+.daily-tabs button.is-active {
+    background: #1f7ae0;
+    border-color: #1f7ae0;
+    color: #fff;
+}
+
+.daily-history {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+}
+
+.daily-calendar {
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #e1e6ec;
+    border-radius: 8px;
+    background: #fafbfc;
+}
+
+.daily-calendar-picker-wrap {
+    position: relative;
+}
+
+.daily-calendar-popover {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    z-index: 7;
+    width: 292px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .16);
+}
+
+.daily-calendar-popover button {
+    padding: 0;
+}
+
+.daily-calendar-popover .daily-calendar-head button {
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.daily-calendar-popover .daily-calendar-grid button {
+    width: 100%;
+    height: 40px;
+    min-width: 0;
+}
+
+.daily-calendar-popover .daily-calendar-head span {
+    color: #26313f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.daily-calendar-popover .daily-calendar-week span {
+    color: #8a94a3;
+    font-size: 11px;
+    line-height: 22px;
+}
+
+.daily-calendar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.daily-calendar-head button {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #d6dde5;
+    border-radius: 6px;
+    background: #fff;
+    color: #26313f;
+    cursor: pointer;
+}
+
+.daily-calendar-head span {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.daily-calendar-week,
+.daily-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.daily-calendar-week span {
+    color: #8a94a3;
+    font-size: 11px;
+    line-height: 22px;
+    text-align: center;
+}
+
+.daily-calendar-grid button,
+.daily-calendar-grid span {
+    position: relative;
+    height: 40px;
+}
+
+.daily-calendar-grid button {
+    display: block;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #26313f;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.daily-calendar-grid button span {
+    display: block;
+    padding-top: 6px;
+    color: #687385;
+    font-size: 15px;
+    line-height: 1.1;
+    transform: none;
+}
+
+.daily-calendar-grid button.is-weekend > span {
+    color: #dc2626;
+}
+
+.daily-calendar-grid button.is-weekend small {
+    color: #dc2626;
+}
+
+.daily-calendar-grid button em {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 2px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #fed7aa;
+    color: #26313f;
+    font-size: 9px;
+    font-style: normal;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.daily-calendar-grid button small {
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    bottom: 4px;
+    max-width: none;
+    overflow: hidden;
+    color: #687385;
+    font-size: 9px;
+    line-height: 1;
+    text-overflow: ellipsis;
+    transform: none;
+    white-space: nowrap;
+}
+
+.daily-calendar-grid button:hover {
+    background: #eef6ff;
+}
+
+.daily-calendar-grid button.has-record {
+    background: #eaf5ff;
+    color: #155da8;
+    font-weight: 700;
+}
+
+.daily-calendar-grid button.has-record::after {
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #1f7ae0;
+    content: '';
+    transform: translateX(-50%);
+}
+
+.daily-calendar-grid button.is-holiday {
+    background: #fff2ec;
+    color: #c2410c;
+}
+
+.daily-calendar-grid button.is-holiday > span {
+    color: #c2410c;
+}
+
+.daily-calendar-grid button.is-holiday small {
+    color: #c2410c;
+}
+
+.daily-calendar-grid button.is-workday > span {
+    color: #26313f;
+}
+
+.daily-calendar-grid button.is-workday em {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.daily-calendar-grid button.is-workday small {
+    color: #26313f;
+}
+
+.daily-calendar-grid button.is-today {
+    box-shadow: inset 0 0 0 1px #58a4f6;
+}
+
+.daily-calendar-grid button.is-selected {
+    background: #1f7ae0;
+    color: #fff;
+}
+
+.daily-calendar-grid button.is-selected > span {
+    color: #fff;
+}
+
+.daily-calendar-grid button.is-selected::after {
+    background: #fff;
+}
+
+.daily-calendar-grid button.is-selected em {
+    background: rgba(255, 255, 255, .24);
+    color: #fff;
+}
+
+.daily-calendar-grid button.is-selected small {
+    color: #fff;
+}
+
+.daily-section-title {
+    color: #6b7280;
+    font-size: 12px;
+    padding: 0 2px 8px;
+}
+
+.daily-search {
+    width: 100%;
+    height: 34px;
+    margin-bottom: 12px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 1px solid #d6dde5;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+    color: #26313f;
+    font-size: 13px;
+}
+
+.daily-search:focus {
+    border-color: #58a4f6;
+    box-shadow: 0 0 0 3px rgba(88, 164, 246, .14);
+}
+
+.daily-records {
+    overflow: auto;
+    min-height: 0;
+}
+
+.daily-record {
+    width: 100%;
+    min-height: 54px;
+    margin-bottom: 8px;
+    padding: 8px 11px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+    text-align: left;
+}
+
+.daily-record span {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.daily-record b {
+    font-weight: 600;
+}
+
+.daily-record small {
+    max-width: 170px;
+    overflow: hidden;
+    color: #7b8491;
+    font-size: 12px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.daily-record strong {
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.daily-record.is-active {
+    background: #1f7ae0;
+    border-color: #1f7ae0;
+    color: #fff;
+}
+
+.daily-record.is-active strong {
+    color: rgba(255, 255, 255, .8);
+}
+
+.daily-record.is-active small {
+    color: rgba(255, 255, 255, .78);
+}
+
+.daily-weekly-record {
+    border-color: #b7dbc4;
+    background: #effaf2;
+}
+
+.daily-weekly-record b {
+    color: #157347;
+}
+
+.daily-weekly-record strong {
+    color: #157347;
+}
+
+.daily-weekly-record.is-active {
+    border-color: #15803d;
+    background: #15803d;
+}
+
+.daily-weekly-record.is-active b,
+.daily-weekly-record.is-active strong {
+    color: #fff;
+}
+
+.daily-empty-small {
+    color: #9aa4b2;
+    font-size: 13px;
+    padding: 12px 2px;
+}
+
+.daily-templates {
+    flex: 1;
+    min-height: 0;
+    padding: 12px 14px 14px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.daily-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #6b7280;
+    font-size: 12px;
+    padding-bottom: 8px;
+}
+
+.daily-section-head button,
+.daily-template-item button {
+    border: 1px solid #d6dde5;
+    background: #fff;
+    color: #26313f;
+    border-radius: 6px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.daily-section-head button {
+    height: 26px;
+    padding: 0 9px;
+    font-size: 12px;
+}
+
+.daily-template-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.daily-template-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px;
+    border: 1px solid #e1e6ec;
+    border-radius: 6px;
+    background: #fafbfc;
+}
+
+.daily-template-item.is-active {
+    border-color: #8cc4ff;
+    background: #eef6ff;
+}
+
+.daily-template-item > button {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.daily-template-item > div {
+    display: flex;
+    gap: 5px;
+}
+
+.daily-template-item > div button {
+    height: 24px;
+    padding: 0 7px;
+    font-size: 12px;
+}
+
+.daily-editor {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.daily-toolbar {
+    height: 58px;
+    border-bottom: 1px solid #dfe4ea;
+    background: rgba(255, 255, 255, .92);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 18px;
+    box-sizing: border-box;
+}
+
+.daily-datebar,
+.daily-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.daily-datebar strong {
+    font-size: 13px;
+    min-width: 92px;
+    text-align: center;
+}
+
+.daily-datebar input {
+    height: 32px;
+    border: 1px solid #d6dde5;
+    border-radius: 6px;
+    padding: 0 8px;
+    color: #26313f;
+    background: #fff;
+}
+
+.daily-template-picker-wrap {
+    position: relative;
+}
+
+.daily-template-picker {
+    position: absolute;
+    top: 38px;
+    right: 0;
+    z-index: 5;
+    width: 126px;
+    padding: 6px;
+    border: 1px solid #d6dde5;
+    border-radius: 7px;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .16);
+}
+
+.daily-template-picker button {
+    width: 100%;
+    justify-content: flex-start;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.daily-template-picker button:hover {
+    background: #eef6ff;
+}
+
+.daily-datebar span {
+    color: #687385;
+    font-size: 13px;
+}
+
+.daily-toolbar button {
+    height: 32px;
+    padding: 0 11px;
+    white-space: nowrap;
+}
+
+.daily-tooltip {
+    position: relative;
+}
+
+.daily-tooltip:hover::after {
+    position: absolute;
+    left: 50%;
+    top: 38px;
+    z-index: 8;
+    padding: 6px 8px;
+    border-radius: 5px;
+    background: #26313f;
+    color: #fff;
+    content: attr(data-tooltip);
+    font-size: 12px;
+    line-height: 1;
+    pointer-events: none;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.daily-calendar-popover .daily-tooltip:hover::after,
+.daily-calendar-popover button:hover::after {
+    display: none;
+}
+
+.daily-toolbar button:disabled {
+    color: #a4adba;
+    background: #f2f4f7;
+    cursor: not-allowed;
+}
+
+.daily-toolbar .daily-danger {
+    color: #b42318;
+    border-color: #f1c6c2;
+}
+
+.daily-save-state {
+    min-width: 54px;
+    color: #6b7280;
+    font-size: 12px;
+    text-align: right;
+}
+
+.daily-save-state.state-saved {
+    color: #2e7d32;
+}
+
+.daily-save-state.state-error {
+    color: #b42318;
+}
+
+.daily-writing {
+    flex: 1;
+    min-height: 0;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.daily-writing textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    color: #1f2933;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.daily-template-main-editor {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.daily-template-main-editor input,
+.daily-template-main-editor textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    color: #1f2933;
+    font-size: 14px;
+}
+
+.daily-template-main-editor input {
+    height: 42px;
+    padding: 0 14px;
+}
+
+.daily-template-main-editor textarea {
+    flex: 1;
+    min-height: 0;
+    padding: 18px 20px;
+    resize: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    line-height: 1.75;
+}
+
+.daily-template-main-editor input:focus,
+.daily-template-main-editor textarea:focus {
+    border-color: #58a4f6;
+    box-shadow: 0 0 0 3px rgba(88, 164, 246, .16);
+}
+
+.daily-writing textarea:focus {
+    border-color: #58a4f6;
+    box-shadow: 0 0 0 3px rgba(88, 164, 246, .16);
+}
+
+.daily-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 18px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: #26313f;
+    color: #fff;
+    font-size: 13px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+}
+
+.daily-dialog-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, .28);
+}
+
+.daily-dialog {
+    width: 320px;
+    padding: 18px;
+    box-sizing: border-box;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, .22);
+}
+
+.daily-dialog-title {
+    color: #1f2933;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.daily-dialog-message {
+    margin-top: 10px;
+    color: #5f6b7a;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.daily-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.daily-dialog-actions button {
+    height: 32px;
+    padding: 0 13px;
+    border: 1px solid #d6dde5;
+    border-radius: 6px;
+    background: #fff;
+    color: #26313f;
+    cursor: pointer;
+}
+
+.daily-dialog-actions .daily-dialog-primary {
+    border-color: #f1c6c2;
+    color: #b42318;
+}
+
+@media (max-width: 860px) {
+    .daily-sidebar {
+        width: 230px;
+        min-width: 200px;
+    }
+
+    .daily-brand {
+        padding: 14px 12px 12px;
+    }
+
+    .daily-brand h1 {
+        font-size: 20px;
+    }
+
+    .daily-brand p {
+        font-size: 12px;
+    }
+
+    .daily-tabs {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .daily-history {
+        padding: 10px;
+    }
+
+    .daily-record {
+        min-height: 48px;
+        padding: 6px 9px;
+        font-size: 12px;
+    }
+
+    .daily-record small {
+        max-width: 120px;
+    }
+
+    .daily-toolbar {
+        padding: 0 12px;
+        gap: 10px;
+    }
+
+    .daily-toolbar button {
+        height: 28px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+
+    .daily-datebar strong {
+        font-size: 13px;
+        min-width: 70px;
+    }
+
+    .daily-datebar span {
+        font-size: 12px;
+    }
+
+    .daily-writing {
+        padding: 12px;
+    }
+
+    .daily-writing textarea {
+        padding: 14px 16px;
+        font-size: 13px;
+    }
+
+    .daily-template-main-editor {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 680px) {
+    .daily-app {
+        flex-direction: column;
+    }
+
+    .daily-sidebar {
+        width: 100%;
+        min-width: 0;
+        max-height: 0;
+        overflow: hidden;
+        border-right: 0;
+        border-bottom: 1px solid #dfe4ea;
+        transition: max-height .25s ease;
+    }
+
+    .sidebar-open .daily-sidebar {
+        max-height: 100vh;
+        overflow: auto;
+    }
+
+    .daily-sidebar-toggle {
+        display: inline-flex;
+    }
+
+    .daily-brand {
+        padding: 10px 12px;
+    }
+
+    .daily-brand h1 {
+        font-size: 18px;
+    }
+
+    .daily-toolbar {
+        height: auto;
+        min-height: 48px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .daily-actions,
+    .daily-datebar {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .daily-datebar strong {
+        font-size: 13px;
+        min-width: 0;
+    }
+
+    .daily-save-state {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .daily-datebar input[type="date"] {
+        width: 120px;
+    }
+
+    .daily-actions {
+        gap: 4px;
+    }
+
+    .daily-toolbar button {
+        height: 26px;
+        padding: 0 6px;
+        font-size: 11px;
+    }
+
+    .daily-writing textarea {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .daily-app {
+        color: #eef2f7;
+        background: #202327;
+    }
+
+    .daily-sidebar,
+    .daily-toolbar,
+    .daily-template-picker,
+    .daily-dialog,
+    .daily-template-main-editor input,
+    .daily-template-main-editor textarea,
+    .daily-writing textarea {
+        background: #2b2f35;
+    }
+
+    .daily-sidebar,
+    .daily-toolbar,
+    .daily-brand,
+    .daily-tabs,
+    .daily-templates,
+    .daily-template-picker,
+    .daily-template-main-editor input,
+    .daily-template-main-editor textarea,
+    .daily-writing textarea {
+        border-color: #424850;
+    }
+
+    .daily-brand p,
+    .daily-section-title,
+    .daily-section-head,
+    .daily-record strong,
+    .daily-datebar span,
+    .daily-save-state {
+        color: #a8b0bb;
+    }
+
+    .daily-today,
+    .daily-toolbar button,
+    .daily-tabs button,
+    .daily-record,
+    .daily-search,
+    .daily-datebar input,
+    .daily-sidebar-toggle {
+        background: #30363d;
+        border-color: #4a515b;
+        color: #eef2f7;
+    }
+
+    .daily-today:hover,
+    .daily-toolbar button:hover,
+    .daily-tabs button:hover,
+    .daily-record:hover,
+    .daily-sidebar-toggle:hover {
+        background: #26384d;
+        border-color: #5796d7;
+    }
+
+    .daily-writing textarea {
+        color: #eef2f7;
+    }
+
+    .daily-template-main-editor input,
+    .daily-template-main-editor textarea {
+        color: #eef2f7;
+    }
+
+    .daily-dialog-title {
+        color: #eef2f7;
+    }
+
+    .daily-dialog-message {
+        color: #a8b0bb;
+    }
+
+    .daily-record small {
+        color: #a8b0bb;
+    }
+
+    .daily-section-head button,
+    .daily-dialog-actions button,
+    .daily-template-item button {
+        background: #30363d;
+        border-color: #4a515b;
+        color: #eef2f7;
+    }
+
+    .daily-template-item,
+    .daily-calendar,
+    .daily-template-picker {
+        background: #30363d;
+        border-color: #4a515b;
+    }
+
+    .daily-calendar-head button,
+    .daily-calendar-grid button {
+        color: #eef2f7;
+    }
+
+    .daily-calendar-head button {
+        background: #30363d;
+        border-color: #4a515b;
+    }
+
+    .daily-calendar-grid button:hover {
+        background: #26384d;
+    }
+
+    .daily-calendar-grid button.has-record {
+        background: #183a59;
+        color: #9dccff;
+    }
+
+    .daily-calendar-grid button.is-holiday {
+        background: #4a261c;
+        color: #ffb199;
+    }
+
+    .daily-calendar-grid button.is-weekend > span {
+        color: #ff9f9f;
+    }
+
+    .daily-calendar-grid button.is-weekend small {
+        color: #ff9f9f;
+    }
+
+    .daily-calendar-grid button.is-holiday > span {
+        color: #ffb199;
+    }
+
+    .daily-calendar-grid button.is-holiday small {
+        color: #ffb199;
+    }
+
+    .daily-calendar-grid button.is-workday > span {
+        color: #eef2f7;
+    }
+
+    .daily-calendar-grid button em {
+        background: #78350f;
+        color: #ffb199;
+    }
+
+    .daily-calendar-grid button small {
+        color: #eef2f7;
+    }
+
+    .daily-calendar-grid button.is-workday em {
+        background: #4c1d95;
+        color: #c4b5fd;
+    }
+
+    .daily-calendar-grid button.is-workday small {
+        color: #eef2f7;
+    }
+
+    .daily-calendar-grid button.is-selected {
+        background: #1f7ae0;
+        color: #fff;
+    }
+
+    .daily-calendar-grid button.is-selected > span {
+        color: #fff;
+    }
+
+    .daily-calendar-grid button.is-selected em {
+        background: rgba(255, 255, 255, .24);
+        color: #fff;
+    }
+
+    .daily-calendar-grid button.is-selected small {
+        color: #fff;
+    }
+
+    .daily-template-item.is-active {
+        background: #26384d;
+        border-color: #5796d7;
+    }
+
+    .daily-weekly-record {
+        background: #173d2b;
+        border-color: #2f7654;
+    }
+
+    .daily-weekly-record b,
+    .daily-weekly-record strong {
+        color: #9ee6ba;
+    }
+
+    .daily-weekly-record.is-active {
+        background: #17623b;
+        border-color: #37a96b;
+    }
+
+    .daily-toolbar button:disabled {
+        color: #6f7884;
+        background: #2a2f35;
+    }
+}
