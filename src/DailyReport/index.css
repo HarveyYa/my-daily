@@ -627,6 +627,21 @@
     white-space: nowrap;
 }
 
+.daily-btn-icon {
+    width: 32px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.daily-btn-icon svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
 .daily-tooltip {
     position: relative;
 }
@@ -664,18 +679,18 @@
     border-color: #f1c6c2;
 }
 
-.daily-save-state {
+.daily-record-state {
     min-width: 54px;
     color: #6b7280;
     font-size: 12px;
     text-align: right;
 }
 
-.daily-save-state.state-saved {
+.daily-record-state.state-saved {
     color: #2e7d32;
 }
 
-.daily-save-state.state-error {
+.daily-record-state.state-error {
     color: #b42318;
 }
 
@@ -864,6 +879,10 @@
         font-size: 12px;
     }
 
+    .daily-btn-icon {
+        width: 28px;
+    }
+
     .daily-datebar strong {
         font-size: 13px;
         min-width: 70px;
@@ -939,7 +958,7 @@
         min-width: 0;
     }
 
-    .daily-save-state {
+    .daily-record-state {
         min-width: 0;
     }
 }
@@ -957,6 +976,10 @@
         height: 26px;
         padding: 0 6px;
         font-size: 11px;
+    }
+
+    .daily-btn-icon {
+        width: 26px;
     }
 
     .daily-writing textarea {
@@ -998,7 +1021,7 @@
     .daily-section-head,
     .daily-record strong,
     .daily-datebar span,
-    .daily-save-state {
+    .daily-record-state {
         color: #a8b0bb;
     }
 

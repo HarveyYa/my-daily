@@ -207,7 +207,6 @@ export default function DailyReport() {
     const [activePanel, setActivePanel] = useState('records')
     const [editorMode, setEditorMode] = useState('daily')
     const [showTemplatePicker, setShowTemplatePicker] = useState(false)
-    const [showExportPicker, setShowExportPicker] = useState('')
     const [showCalendarPicker, setShowCalendarPicker] = useState(false)
     const [editingTemplateId, setEditingTemplateId] = useState('')
     const [templateName, setTemplateName] = useState('')
@@ -221,7 +220,6 @@ export default function DailyReport() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const textareaRef = useRef(null)
     const templatePickerRef = useRef(null)
-    const exportPickerRef = useRef(null)
     const calendarPickerRef = useRef(null)
     const saveTimer = useRef(null)
     const didLoad = useRef(false)
@@ -313,10 +311,8 @@ export default function DailyReport() {
     useEffect(() => {
         const closePickers = (event) => {
             if (templatePickerRef.current?.contains(event.target)) return
-            if (exportPickerRef.current?.contains(event.target)) return
             if (calendarPickerRef.current?.contains(event.target)) return
             setShowTemplatePicker(false)
-            setShowExportPicker('')
             setShowCalendarPicker(false)
         }
 
@@ -348,7 +344,7 @@ export default function DailyReport() {
     }, [date])
 
     useEffect(() => {
-        const isMac = window.utools?.isMacOs?.() || navigator.platform.toLowerCase().includes('mac')
+        const isMac = window.utools?.isMacOs?.() || /Mac/i.test(navigator.userAgentData?.platform || navigator.userAgent || '')
         const handleDateShortcut = (event) => {
             if (editorMode !== 'daily') return
             const hasModifier = isMac ? event.metaKey : event.ctrlKey
@@ -365,7 +361,7 @@ export default function DailyReport() {
 
         window.addEventListener('keydown', handleDateShortcut)
         return () => window.removeEventListener('keydown', handleDateShortcut)
-    }, [date, editorMode, today])
+    }, [date, editorMode])
 
     const showMessage = (text) => {
         setMessage(text)
@@ -413,14 +409,12 @@ export default function DailyReport() {
         }
     }
 
-    const handleExport = (exportType) => {
-        const text = exportType === 'md' ? `# 我的日报 - ${date}\n\n${content || ''}\n` : content
+    const handleExport = () => {
         try {
-            const filePath = window.services?.exportDailyReport?.(date, text, exportType)
+            const filePath = window.services?.exportDailyReport?.(date, content, 'txt')
             if (filePath) {
                 window.utools?.shellShowItemInFolder?.(filePath)
-                setShowExportPicker('')
-                showMessage(`已导出 ${exportType.toUpperCase()}`)
+                showMessage('已导出 TXT')
             }
         } catch {
             showMessage('导出失败')
@@ -453,14 +447,12 @@ export default function DailyReport() {
         }
     }
 
-    const handleExportWeekly = (exportType) => {
-        const text = weeklyContent
+    const handleExportWeekly = () => {
         try {
-            const filePath = window.services?.exportWeeklyReport?.(weekStart, weekEnd, text, exportType)
+            const filePath = window.services?.exportWeeklyReport?.(weekStart, weekEnd, weeklyContent, 'txt')
             if (filePath) {
                 window.utools?.shellShowItemInFolder?.(filePath)
-                setShowExportPicker('')
-                showMessage(`已导出周报 ${exportType.toUpperCase()}`)
+                showMessage('已导出周报 TXT')
             }
         } catch {
             showMessage('导出失败')
@@ -577,12 +569,19 @@ export default function DailyReport() {
             .sort((a, b) => b.sortTime - a.sortTime)
     })()
 
-    const selectedRecord = currentDoc?.updatedAt
-        ? `更新于 ${new Date(currentDoc.updatedAt).toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'})}`
-        : '还没有保存记录'
+    const selectedRecord = (() => {
+        if (saveState === 'saving') return '保存中...'
+        if (saveState === 'error') return '保存失败'
+        if (currentDoc?.updatedAt)
+            return `更新于 ${new Date(currentDoc.updatedAt).toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            })}`
+        return '还没有保存记录'
+    })()
 
     const weeklyContent = weekStart && weekEnd ? buildWeeklySummary(weekStart, weekEnd, records) : ''
-    const shortcutModifier = window.utools?.isMacOs?.() || navigator.platform.toLowerCase().includes('mac') ? 'Cmd' : 'Ctrl'
+    const shortcutModifier = window.utools?.isMacOs?.() || /Mac/i.test(navigator.userAgentData?.platform || navigator.userAgent || '') ? 'Cmd' : 'Ctrl'
     const recordDateSet = new Set(records.map(item => item.date))
     const monthDays = getMonthDays(date)
     const monthTitle = `${date.slice(0, 4)}年${Number(date.slice(5, 7))}月`
@@ -751,20 +750,23 @@ export default function DailyReport() {
                                 </button>
                                 <strong>{date}</strong>
                                 <span>{getWeekday(date)}</span>
-                                <span>{selectedRecord}</span>
                                 <button className='daily-tooltip' data-tooltip={`${shortcutModifier} + →`}
                                         onClick={() => loadByDate(shiftDate(date, 1))}>后一天
                                 </button>
                             </div>
                             <div className='daily-actions'>
-                <span className={'daily-save-state state-' + saveState}>
-                  {saveState === 'saving' && '保存中'}
-                    {saveState === 'saved' && '已保存'}
-                    {saveState === 'error' && '保存失败'}
-                    {saveState === 'idle' && '本地记录'}
-                </span>
+                                <span className={'daily-record-state state-' + saveState}>{selectedRecord}</span>
                                 <div className='daily-template-picker-wrap' ref={templatePickerRef}>
-                                    <button onClick={handleInsertTemplate} disabled={Boolean(content.trim())}>插入模板
+                                    <button className='daily-btn-icon daily-tooltip' data-tooltip='插入模板'
+                                            onClick={handleInsertTemplate} disabled={Boolean(content.trim())}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                             strokeLinejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                            <polyline points="14 2 14 8 20 8"/>
+                                            <line x1="12" y1="18" x2="12" y2="12"/>
+                                            <line x1="9" y1="15" x2="15" y2="15"/>
+                                        </svg>
                                     </button>
                                     {showTemplatePicker && (
                                         <div className='daily-template-picker'>
@@ -775,19 +777,37 @@ export default function DailyReport() {
                                         </div>
                                     )}
                                 </div>
-                                <button onClick={handleCopy}>复制</button>
-                                <div className='daily-template-picker-wrap' ref={exportPickerRef}>
-                                    <button
-                                        onClick={() => setShowExportPicker(showExportPicker === 'daily' ? '' : 'daily')}>导出
+                                <button className='daily-btn-icon daily-tooltip' data-tooltip='复制'
+                                        onClick={handleCopy}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                </button>
+                                <button className='daily-btn-icon daily-tooltip' data-tooltip='导出 TXT'
+                                        onClick={handleExport}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                </button>
+                                <button className='daily-btn-icon daily-tooltip daily-danger' data-tooltip='清空'
+                                        onClick={handleClear}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round">
+                                        <polyline points="3 6 5 6 21 6"/>
+                                        <path
+                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                        <line x1="10" y1="11" x2="10" y2="17"/>
+                                        <line x1="14" y1="11" x2="14" y2="17"/>
+                                    </svg>
                                     </button>
-                                    {showExportPicker === 'daily' && (
-                                        <div className='daily-template-picker'>
-                                            <button onClick={() => handleExport('txt')}>导出 TXT</button>
-                                            <button onClick={() => handleExport('md')}>导出 MD</button>
-                                        </div>
-                                    )}
-                                </div>
-                                <button className='daily-danger' onClick={handleClear}>清空</button>
                             </div>
                         </header>
 
@@ -841,18 +861,25 @@ export default function DailyReport() {
                                 <span>可手动选择时间段</span>
                             </div>
                             <div className='daily-actions'>
-                                <button onClick={handleCopyWeekly}>复制</button>
-                                <div className='daily-template-picker-wrap' ref={exportPickerRef}>
-                                    <button
-                                        onClick={() => setShowExportPicker(showExportPicker === 'weekly' ? '' : 'weekly')}>导出
+                                <button className='daily-btn-icon daily-tooltip' data-tooltip='复制'
+                                        onClick={handleCopyWeekly}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
                                     </button>
-                                    {showExportPicker === 'weekly' && (
-                                        <div className='daily-template-picker'>
-                                            <button onClick={() => handleExportWeekly('txt')}>导出 TXT</button>
-                                            <button onClick={() => handleExportWeekly('md')}>导出 MD</button>
-                                        </div>
-                                    )}
-                                </div>
+                                <button className='daily-btn-icon daily-tooltip' data-tooltip='导出 TXT'
+                                        onClick={handleExportWeekly}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                </button>
 
                             </div>
                         </header>
